@@ -1,0 +1,8 @@
+matplotlib
+pypdf
+fpdf
+librosa
+pynput
+
+enable mod-script-pipe in audacity: 
+edit -> preferences -> modules -> set mod-script-pipe to 'Enabled' -> Ok
