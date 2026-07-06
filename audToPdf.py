@@ -1,3 +1,4 @@
+import os
 import sys
 from pathlib import Path
 
@@ -10,6 +11,7 @@ import matplotlib.pyplot as plt
 from fpdf import FPDF
 from pypdf import PdfReader, PdfWriter
 from pynput import keyboard
+from time import sleep
 
 import pipeclient
 
@@ -65,7 +67,16 @@ def parse_image(default: bool) -> None:
     plt.close()
 
 
-def create_pdf() -> None:
+def resource_path(relativePath):
+    if getattr(sys, 'frozen', False):
+        bp = Path(sys._MEIPASS)
+    else:
+        bp = Path(__file__).parent
+
+    return str(bp / relativePath)
+
+
+def create_pdf(pdf_writer=PdfWriter()) -> None:
     global isPreSaved
     PAGE_W = 275.1
     img_w = 240
@@ -83,9 +94,9 @@ def create_pdf() -> None:
 
     tmpPdfPath = str(exportsFolder / "tmp.pdf")
     pdf.output(tmpPdfPath)
-    template = PdfReader("template.pdf")
+    template = PdfReader(resource_path("template.pdf"))
     rimg = PdfReader(tmpPdfPath)
-    writer = PdfWriter()
+    writer = pdf_writer
     templatePage = template.pages[0]
     imagePage = rimg.pages[0]
 
@@ -143,5 +154,6 @@ def on_release(key):
 
 
 if __name__ == "__main__":
+    pprint("========== ✓ Ready. ✓ ==========", 1)
     with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
         listener.join()

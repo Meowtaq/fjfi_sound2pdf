@@ -1,5 +1,7 @@
-tmp
+tmp/
 output.pdf
 .idea
 __pycache__
 .DS_Store
+dist/
+build/
