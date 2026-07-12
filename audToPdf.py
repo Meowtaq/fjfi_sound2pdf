@@ -131,9 +131,14 @@ def on_img_reset_pressed() -> None:
 currentKeys = set()
 SHORTCUTS = {
     frozenset({keyboard.Key.ctrl_l, keyboard.Key.alt_l, keyboard.KeyCode.from_vk(80)}): lambda: on_export_to_png_pressed(True),
+    frozenset({keyboard.Key.ctrl, keyboard.Key.cmd, keyboard.KeyCode.from_char('p')}): lambda: on_export_to_png_pressed(True),
     frozenset({keyboard.Key.ctrl_l, keyboard.Key.alt_l, keyboard.KeyCode.from_vk(79)}): lambda: on_export_to_png_pressed(False),
+    frozenset({keyboard.Key.ctrl, keyboard.Key.cmd, keyboard.KeyCode.from_char('o')}): lambda: on_export_to_png_pressed(False),
     frozenset({keyboard.Key.ctrl_l, keyboard.Key.alt_l, keyboard.KeyCode.from_vk(82)}): on_img_reset_pressed,
-    frozenset({keyboard.Key.ctrl_l, keyboard.Key.alt_l, keyboard.KeyCode.from_vk(81)}): lambda: sys.exit(0)
+    frozenset({keyboard.Key.ctrl, keyboard.Key.cmd, keyboard.KeyCode.from_char('r')}): on_img_reset_pressed,
+    frozenset({keyboard.Key.ctrl_l, keyboard.Key.alt_l, keyboard.KeyCode.from_vk(81)}): lambda: sys.exit(0),
+    frozenset({keyboard.Key.ctrl, keyboard.Key.cmd, keyboard.KeyCode.from_char('k')}): lambda: sys.exit(0)
+
 }
 
 def on_press(key, clear=currentKeys.clear()):
