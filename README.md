@@ -16,3 +16,5 @@ ctrl+alt+p  SAVE currently selected clip to pdf
 ctrl+alt+o  buffer currently selected clip
 ctrl+alt+r  reset buffered clip
 ctrl+alt+k  quit
+
+(ctrl+cmd+" " on mac)

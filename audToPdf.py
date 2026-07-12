@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 from fpdf import FPDF
 from pypdf import PdfReader, PdfWriter
 from pynput import keyboard
-from time import time_ns
+from datetime import datetime
 
 import pipeclient
 
@@ -111,7 +111,7 @@ def create_pdf() -> None:
     writer.add_page(templatePage)
 
 
-    outP = str(outputsPath / (str(time_ns()) + ".pdf"))
+    outP = str(outputsPath / (str(datetime.now().strftime("%Y.%m.%d-%H.%M.%S_out")) + ".pdf"))
     print(outP)
     with open(outP, "wb") as out:
         writer.write(out)
@@ -144,7 +144,7 @@ SHORTCUTS = {
     frozenset({keyboard.Key.ctrl, keyboard.Key.cmd, keyboard.KeyCode.from_char('o')}): lambda: on_export_to_png_pressed(False),
     frozenset({keyboard.Key.ctrl_l, keyboard.Key.alt_l, keyboard.KeyCode.from_vk(82)}): on_img_reset_pressed,
     frozenset({keyboard.Key.ctrl, keyboard.Key.cmd, keyboard.KeyCode.from_char('r')}): on_img_reset_pressed,
-    frozenset({keyboard.Key.ctrl_l, keyboard.Key.alt_l, keyboard.KeyCode.from_vk(81)}): lambda: sys.exit(0),
+    frozenset({keyboard.Key.ctrl_l, keyboard.Key.alt_l, keyboard.KeyCode.from_vk(75)}): lambda: sys.exit(0),
     frozenset({keyboard.Key.ctrl, keyboard.Key.cmd, keyboard.KeyCode.from_char('k')}): lambda: sys.exit(0)
 
 }
