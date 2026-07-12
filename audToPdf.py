@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 from fpdf import FPDF
 from pypdf import PdfReader, PdfWriter
 from pynput import keyboard
-from time import sleep
+from time import time_ns
 
 import pipeclient
 
@@ -20,6 +20,8 @@ debugOn = len(sys.argv) > 1 and sys.argv[1] == '--debug'
 isPreSaved = False
 exportsFolder = Path("tmp").absolute()
 exportsFolder.mkdir(parents=True, exist_ok=True)
+outputsPath = Path("outputs").absolute()
+outputsPath.mkdir(parents=True, exist_ok=True)
 pc = pipeclient.PipeClient()
 
 audioExport = str(exportsFolder / "audioExport.wav")
@@ -76,7 +78,7 @@ def resource_path(relativePath):
     return str(bp / relativePath)
 
 
-def create_pdf(pdf_writer=PdfWriter()) -> None:
+def create_pdf() -> None:
     global isPreSaved
     PAGE_W = 275.1
     img_w = 240
@@ -92,11 +94,11 @@ def create_pdf(pdf_writer=PdfWriter()) -> None:
         pdf.image(str(secondImageWave), x=x, y=104, w=img_w, h=80)
     isPreSaved = False
 
-    tmpPdfPath = str(exportsFolder / "tmp.pdf")
+    tmpPdfPath = "tmp.pdf"
     pdf.output(tmpPdfPath)
     template = PdfReader(resource_path("template.pdf"))
     rimg = PdfReader(tmpPdfPath)
-    writer = pdf_writer
+    writer = PdfWriter()
     templatePage = template.pages[0]
     imagePage = rimg.pages[0]
 
@@ -108,8 +110,14 @@ def create_pdf(pdf_writer=PdfWriter()) -> None:
     templatePage.merge_page(imagePage)
     writer.add_page(templatePage)
 
-    with open("output.pdf", "wb") as out:
+
+    outP = str(outputsPath / (str(time_ns()) + ".pdf"))
+    print(outP)
+    with open(outP, "wb") as out:
         writer.write(out)
+
+    if os.path.exists(tmpPdfPath):
+        os.remove(tmpPdfPath)
 
     pprint("================= ✓ Pdf created. ✓ =================", 1)
 
